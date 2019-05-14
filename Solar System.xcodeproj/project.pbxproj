@@ -13,6 +13,7 @@
 		34E6330D228AB5F800EFF871 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34E6330B228AB5F800EFF871 /* Main.storyboard */; };
 		34E6330F228AB5FA00EFF871 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34E6330E228AB5FA00EFF871 /* Assets.xcassets */; };
 		34E63312228AB5FA00EFF871 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34E63310228AB5FA00EFF871 /* LaunchScreen.storyboard */; };
+		34E6331A228ABFCF00EFF871 /* Planet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E63319228ABFCF00EFF871 /* Planet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		34E6330E228AB5FA00EFF871 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		34E63311228AB5FA00EFF871 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		34E63313228AB5FA00EFF871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		34E63319228ABFCF00EFF871 /* Planet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Planet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				34E6330E228AB5FA00EFF871 /* Assets.xcassets */,
 				34E63310228AB5FA00EFF871 /* LaunchScreen.storyboard */,
 				34E63313228AB5FA00EFF871 /* Info.plist */,
+				34E63319228ABFCF00EFF871 /* Planet.swift */,
 			);
 			path = "Solar System";
 			sourceTree = "<group>";
@@ -139,6 +142,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34E6331A228ABFCF00EFF871 /* Planet.swift in Sources */,
 				34E6330A228AB5F800EFF871 /* ViewController.swift in Sources */,
 				34E63306228AB5F800EFF871 /* AppDelegate.swift in Sources */,
 			);
@@ -289,7 +293,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A8SA62ZA26;
 				INFOPLIST_FILE = "Solar System/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -308,7 +312,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A8SA62ZA26;
 				INFOPLIST_FILE = "Solar System/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

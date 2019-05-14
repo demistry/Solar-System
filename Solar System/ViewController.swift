@@ -19,12 +19,32 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         // Set the view's delegate
         sceneView.delegate = self
-        
+        sceneView.autoenablesDefaultLighting = true
         // Show statistics such as fps and timing information
+        
+        let earthParent = SCNNode()
+        earthParent.position = SCNVector3(0,0,-2)
+        
+        let moon = SCNNode(geometry: SCNSphere(radius: 0.1))
+        moon.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "moon")
+        moon.position = SCNVector3(0,0,-1)
+        
+        let earth = SCNNode(geometry: SCNSphere(radius: 0.3))
+        earth.position = SCNVector3(0,0,-2)
+        earth.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "earth")
+        earth.geometry?.firstMaterial?.specular.contents = UIImage(named: "earth_specular_map")
+        earth.geometry?.firstMaterial?.normal.contents = UIImage(named: "earth_normal_map")
+        earth.geometry?.firstMaterial?.emission.contents = UIImage(named: "earth_clouds")
+        let rotationaction = SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: 360.degreesToRadians, z: 0, duration: 4))
+        let moonRotation = SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: 360.degreesToRadians, z: 0, duration: 12))
+        earthParent.runAction(moonRotation)
+        earth.runAction(rotationaction)
+        earthParent.addChildNode(moon)
         sceneView.showsStatistics = true
         sceneView.debugOptions = [.showWorldOrigin, .showFeaturePoints, .showPhysicsFields]
-        
-        
+        sceneView.scene.rootNode.addChildNode(earth)
+        sceneView.scene.rootNode.addChildNode(earthParent)
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,4 +89,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Reset tracking and/or remove existing anchors if consistent tracking is required
         
     }
+}
+
+extension Int {
+    
+    var degreesToRadians: CGFloat { return CGFloat(Double(self) * .pi/180)}
 }
