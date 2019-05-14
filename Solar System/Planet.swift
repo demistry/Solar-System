@@ -20,12 +20,13 @@ class Planet{
         planetNode.geometry?.firstMaterial?.normal.contents = UIImage(named: normal ?? "")
         planetNode.geometry?.firstMaterial?.emission.contents = UIImage(named: emission ?? "")
         planetNode.position = position
-        //let foreverAction =
     }}
 
 
 class PlanetParent{
     var parentNode : SCNNode
+    
+    
     private var rotationAction : SCNAction
     
     init(position : SCNVector3, durationOfRotation : TimeInterval, childPlanet : Planet) {

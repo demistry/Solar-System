@@ -22,31 +22,41 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.autoenablesDefaultLighting = true
         // Show statistics such as fps and timing information
         
-        let earthParent = SCNNode()
-        earthParent.position = SCNVector3(0,0,-2)
-        
-        let moon = SCNNode(geometry: SCNSphere(radius: 0.1))
-        moon.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "moon")
-        moon.position = SCNVector3(0,0,-1)
-        
-        let earth = SCNNode(geometry: SCNSphere(radius: 0.3))
-        earth.position = SCNVector3(0,0,-2)
-        earth.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "earth")
-        earth.geometry?.firstMaterial?.specular.contents = UIImage(named: "earth_specular_map")
-        earth.geometry?.firstMaterial?.normal.contents = UIImage(named: "earth_normal_map")
-        earth.geometry?.firstMaterial?.emission.contents = UIImage(named: "earth_clouds")
-        let rotationaction = SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: 360.degreesToRadians, z: 0, duration: 4))
-        let moonRotation = SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: 360.degreesToRadians, z: 0, duration: 12))
-        earthParent.runAction(moonRotation)
-        earth.runAction(rotationaction)
-        earthParent.addChildNode(moon)
         sceneView.showsStatistics = true
         sceneView.debugOptions = [.showWorldOrigin, .showFeaturePoints, .showPhysicsFields]
-        sceneView.scene.rootNode.addChildNode(earth)
-        sceneView.scene.rootNode.addChildNode(earthParent)
+        //sceneView.scene.rootNode.addChildNode(sun)
 
     }
     
+    func addAllNodes(nodes : [SCNNode]){
+        for node in nodes {
+            sceneView.scene.rootNode.addChildNode(node)
+        }
+        
+    }
+    
+    @IBAction func addSolarSystem(_ sender: UIButton) {
+        let presentNodes = sceneView.scene.rootNode.childNodes
+        guard presentNodes.count == 0 else{
+            print("Child Nodes already present")
+            return
+        }
+        let sun = SCNNode(geometry: SCNSphere(radius: 0.35))
+        sun.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "sun")
+        sun.position = SCNVector3(0,0,-3)
+        sun.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: 360.degreesToRadians, z: 0, duration: 10)))
+        
+        let mercury = Planet(radius: 0.1, diffuse: "mercury", specular: nil, normal: nil, emission: nil, position: SCNVector3(0, 0, -0.5))
+        let mercuryParent = PlanetParent(position: sun.position, durationOfRotation: 1, childPlanet: mercury)
+        
+        let venus = Planet(radius: 0.2, diffuse: "venus_surface", specular: nil, normal: nil, emission: "venus_atmosphere", position: SCNVector3(0, 0, -1))
+        let venusParent = PlanetParent(position: sun.position, durationOfRotation: 2, childPlanet: venus)
+        
+        let earth = Planet(radius: 0.3, diffuse: "earth", specular: "earth_specular_map", normal: "earth_normal_map", emission: "earth_clouds", position: SCNVector3(0, 0, -1.7))
+        let earthParent = PlanetParent(position: sun.position, durationOfRotation: 3, childPlanet: earth)
+        
+        addAllNodes(nodes: [sun, mercuryParent.parentNode, venusParent.parentNode, earthParent.parentNode])
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
