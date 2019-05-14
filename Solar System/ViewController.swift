@@ -36,15 +36,31 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     @IBAction func addSolarSystem(_ sender: UIButton) {
+//        sceneView.scene.rootNode.enumerateChildNodes { (node, _) in
+//            guard !(node.name == "sun") else{
+//                print("Node present")
+//                return
+//            }
+//        }
         let presentNodes = sceneView.scene.rootNode.childNodes
-        guard presentNodes.count == 0 else{
-            print("Child Nodes already present")
-            return
+        for node in presentNodes{
+            if node.name == "Sun Parent Node"{
+                print("Node already present, exit scope")
+                return
+            }
         }
+//        presentNodes.map { (node) -> T in
+//            guard (node.name == "sun")
+//        }
+        let pov = sceneView.pointOfView?.position
+        let sunParent = SCNNode()
+        sunParent.position = pov ?? SCNVector3(0,0,-1)
+        sunParent.name = "Sun Parent Node"
         let sun = SCNNode(geometry: SCNSphere(radius: 0.35))
         sun.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "sun")
-        sun.position = SCNVector3(0,0,-3)
+        sun.position = pov!
         sun.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: 360.degreesToRadians, z: 0, duration: 10)))
+        sunParent.addChildNode(sun)
         
         let mercury = Planet(radius: 0.1, diffuse: "mercury", specular: nil, normal: nil, emission: nil, position: SCNVector3(0, 0, -0.5))
         let mercuryParent = PlanetParent(position: sun.position, durationOfRotation: 1, childPlanet: mercury)
@@ -55,7 +71,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let earth = Planet(radius: 0.3, diffuse: "earth", specular: "earth_specular_map", normal: "earth_normal_map", emission: "earth_clouds", position: SCNVector3(0, 0, -1.7))
         let earthParent = PlanetParent(position: sun.position, durationOfRotation: 3, childPlanet: earth)
         
-        addAllNodes(nodes: [sun, mercuryParent.parentNode, venusParent.parentNode, earthParent.parentNode])
+        addAllNodes(nodes: [sunParent, mercuryParent.parentNode, venusParent.parentNode, earthParent.parentNode])
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
