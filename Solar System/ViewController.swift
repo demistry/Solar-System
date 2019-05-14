@@ -36,12 +36,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     @IBAction func addSolarSystem(_ sender: UIButton) {
-//        sceneView.scene.rootNode.enumerateChildNodes { (node, _) in
-//            guard !(node.name == "sun") else{
-//                print("Node present")
-//                return
-//            }
-//        }
         let presentNodes = sceneView.scene.rootNode.childNodes
         for node in presentNodes{
             if node.name == "Sun Parent Node"{
@@ -49,29 +43,46 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 return
             }
         }
-//        presentNodes.map { (node) -> T in
-//            guard (node.name == "sun")
-//        }
+
         let pov = sceneView.pointOfView?.position
         let sunParent = SCNNode()
         sunParent.position = pov ?? SCNVector3(0,0,-1)
         sunParent.name = "Sun Parent Node"
         let sun = SCNNode(geometry: SCNSphere(radius: 0.35))
         sun.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "sun")
-        sun.position = pov!
+        sun.position = sunParent.position
+        
+        
         sun.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: 360.degreesToRadians, z: 0, duration: 10)))
         sunParent.addChildNode(sun)
         
-        let mercury = Planet(radius: 0.1, diffuse: "mercury", specular: nil, normal: nil, emission: nil, position: SCNVector3(0, 0, -0.5))
-        let mercuryParent = PlanetParent(position: sun.position, durationOfRotation: 1, childPlanet: mercury)
+        let mercury = Planet(radius: 0.05, diffuse: "mercury", specular: nil, normal: nil, emission: nil, position: SCNVector3(0, 0, -0.5))
+        let mercuryParent = PlanetParent(position: sunParent.position, durationOfRotation: 1, childPlanet: mercury)
         
-        let venus = Planet(radius: 0.2, diffuse: "venus_surface", specular: nil, normal: nil, emission: "venus_atmosphere", position: SCNVector3(0, 0, -1))
-        let venusParent = PlanetParent(position: sun.position, durationOfRotation: 2, childPlanet: venus)
+        let venus = Planet(radius: 0.15, diffuse: "venus_surface", specular: nil, normal: nil, emission: "venus_atmosphere", position: SCNVector3(0, 0, -1))
+        let venusParent = PlanetParent(position: sunParent.position, durationOfRotation: 4, childPlanet: venus)
         
-        let earth = Planet(radius: 0.3, diffuse: "earth", specular: "earth_specular_map", normal: "earth_normal_map", emission: "earth_clouds", position: SCNVector3(0, 0, -1.7))
-        let earthParent = PlanetParent(position: sun.position, durationOfRotation: 3, childPlanet: earth)
+        let earth = Planet(radius: 0.2, diffuse: "earth", specular: "earth_specular_map", normal: "earth_normal_map", emission: "earth_clouds", position: SCNVector3(0, 0, -1.7))
+        let earthParent = PlanetParent(position: sunParent.position, durationOfRotation: 7, childPlanet: earth)
         
-        addAllNodes(nodes: [sunParent, mercuryParent.parentNode, venusParent.parentNode, earthParent.parentNode])
+        let mars = Planet(radius: 0.12, diffuse: "mars", specular: nil, normal: nil, emission: nil, position: SCNVector3(0, 0, -2.3))
+        let marsParent = PlanetParent(position: sunParent.position, durationOfRotation: 9, childPlanet: mars)
+        
+        let jupiter = Planet(radius: 0.12, diffuse: "jupiter", specular: nil, normal: nil, emission: nil, position: SCNVector3(0, 0, -3))
+        let jupiterParent = PlanetParent(position: sunParent.position, durationOfRotation: 11, childPlanet: jupiter)
+        
+        
+        //TODO:- Add a ring for saturn
+        let saturn = Planet(radius: 0.12, diffuse: "saturn", specular: nil, normal: nil, emission: nil, position: SCNVector3(0, 0, -3.4))
+        let saturnParent = PlanetParent(position: sunParent.position, durationOfRotation: 13, childPlanet: saturn)
+        
+        let uranus = Planet(radius: 0.12, diffuse: "uranus", specular: nil, normal: nil, emission: nil, position: SCNVector3(0, 0, -4))
+        let uranusParent = PlanetParent(position: sunParent.position, durationOfRotation: 14, childPlanet: uranus)
+        
+        let neptune = Planet(radius: 0.12, diffuse: "neptune", specular: nil, normal: nil, emission: nil, position: SCNVector3(0, 0, -4.8))
+        let neptuneParent = PlanetParent(position: sunParent.position, durationOfRotation: 16, childPlanet: neptune)
+        
+        addAllNodes(nodes: [sunParent, mercuryParent.parentNode, venusParent.parentNode, earthParent.parentNode,marsParent.parentNode, jupiterParent.parentNode, saturnParent.parentNode, uranusParent.parentNode, neptuneParent.parentNode])
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
